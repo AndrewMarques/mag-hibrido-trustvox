@@ -1,0 +1,26 @@
+<?php
+$_product = Mage::registry('current_product');
+
+$numero_loja = Mage::getStoreConfig('hibridotrustvox/configuracoes/numero_da_loja');
+$titulo = Mage::getStoreConfig('hibridotrustvox/configuracoes/titulo_do_widget');
+?>
+
+<div class='_trustvox_widget_container'>
+    <div class='container_titulo_trustvox' id='reviews'><h1><?php echo $titulo;?></h1></div>
+    <div id='_trustvox_widget'></div>
+</div>
+
+<script type='text/javascript'>
+var _trustvox = _trustvox || [];
+_trustvox.push(['_storeId', "<?php echo $numero_loja;?>"]);
+
+_trustvox.push(['_productId',  "<?php echo $_product->getId();?>"]);
+_trustvox.push(['_productName',"<?php echo $_product->getName();?>"]);
+_trustvox.push(['_productPhotos', ["<?php echo $_product->getImageUrl();?>"]]);
+
+(function() {
+var tv = document.createElement('script'); tv.type = 'text/javascript'; tv.async = true;
+tv.src = '//trustvox-production-assets.s3.amazonaws.com/assets/trustvox.1.min.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(tv, s);
+})();
+</script>

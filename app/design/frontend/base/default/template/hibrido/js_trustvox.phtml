@@ -1,0 +1,9 @@
+<?php
+$numero_loja = Mage::getStoreConfig('hibridotrustvox/configuracoes/numero_da_loja');
+?>
+
+<script src="//s3-sa-east-1.amazonaws.com/trustvox-rate-widget-js/widget.js"></script>
+<script type="text/javascript">
+var _trustvox_shelf_rate = _trustvox_shelf_rate || [];
+_trustvox_shelf_rate.push(['_storeId', '<?php echo $numero_loja;?>']);
+</script>

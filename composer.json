@@ -1,0 +1,7 @@
+{
+   "name": "hibrido/mag-hibrido-trustvox",
+   "type": "magento-module",
+   "require": {
+      "magento-hackathon/magento-composer-installer": "*"
+   }
+}

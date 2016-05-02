@@ -1,0 +1,79 @@
+<?xml version="1.0" ?>
+<config>
+
+    <tabs>
+        <hibridotrustvox translate="label" module="hibridotrustvox">
+            <label>Trustvox</label>
+            <sort_order>1</sort_order>
+        </hibridotrustvox>
+    </tabs>
+
+    <sections>
+        <hibridotrustvox module="hibridotrustvox">
+            <tab>hibridotrustvox</tab>
+            <label>Configurações</label>
+            <frontend_type>text</frontend_type>
+            <sort_order>2</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <configuracoes translate="label" module="hibridotrustvox">
+                    <label>Configurações</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>0</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <comment>
+                        <![CDATA[
+                        by <a href="http://souhibrido.com.br/" target="_blank">
+                        <img title="Hibrido" alt="Hibrido" src="http://www.souhibrido.com.br/sign/hibrido.png" /></a>
+                        ]]>
+                    </comment>
+                    <fields>
+                        <numero_da_loja translate="label" module="hibridotrustvox">
+                            <label>Número da Loja</label>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </numero_da_loja>
+                        <token translate="label" module="hibridotrustvox">
+                            <label>Token</label>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </token>
+                        <titulo_do_widget translate="label" module="hibridotrustvox">
+                            <label>Título do Widget</label>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </titulo_do_widget>
+                        <posicao_do_widget translate="label" module="hibridotrustvox">
+                            <label>Posição do Widget</label>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <frontend_type>select</frontend_type>
+                            <source_model>hibridotrustvox/system_config_source_posicoes</source_model>
+                        </posicao_do_widget>
+                        <mostrar_estrelas translate="label" module="hibridotrustvox">
+                            <label>Mostrar estrelas?</label>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <frontend_type>select</frontend_type>
+                            <source_model>hibridotrustvox/system_config_source_yesno</source_model>
+                        </mostrar_estrelas>
+                    </fields>
+                </configuracoes>
+            </groups>
+        </hibridotrustvox>
+    </sections>
+</config>

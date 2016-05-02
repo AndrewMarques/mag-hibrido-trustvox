@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <block type="core/template" name="js_trustvox" template="hibrido/js_trustvox.phtml" />
+        </reference>
+    </default>
+
+    <catalog_product_view>
+        <reference name="product.info.additional">
+            <block type="core/template" name="trustvox_widget" template="hibrido/trustvox.phtml" />
+        </reference>
+    </catalog_product_view>
+</layout>

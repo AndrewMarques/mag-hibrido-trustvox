@@ -1,0 +1,11 @@
+<?php
+$_product = Mage::registry('current_product');
+
+$numero_loja = Mage::getStoreConfig('hibridotrustvox/configuracoes/numero_da_loja');
+$titulo = Mage::getStoreConfig('hibridotrustvox/configuracoes/titulo_do_widget');
+$posicao = Mage::getStoreConfig('hibridotrustvox/configuracoes/posicao_do_widget');
+
+if($posicao == 'padrao'){
+    echo $this->getLayout()->createBlock('core/template')->setTemplate('hibrido/widget_trustvox.phtml')->tohtml();
+}
+?>

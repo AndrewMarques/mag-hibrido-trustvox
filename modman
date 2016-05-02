@@ -1,0 +1,6 @@
+app/code/community/Hibrido/Trustvox/ app/code/community/Hibrido/Trustvox/
+app/design/frontend/base/default/layout/hibrido/trustvox.xml app/design/frontend/base/default/layout/hibrido/trustvox.xml
+app/design/frontend/base/default/template/hibrido/js_trustvox.phtml app/design/frontend/base/default/template/hibrido/js_trustvox.phtml
+app/design/frontend/base/default/template/hibrido/trustvox.phtml app/design/frontend/base/default/template/hibrido/trustvox.phtml
+app/design/frontend/base/default/template/hibrido/widget_trustvox.phtml app/design/frontend/base/default/template/hibrido/widget_trustvox.phtml
+app/etc/modules/Hibrido_Trustvox.xml app/etc/modules/Hibrido_Trustvox.xml
