@@ -29,7 +29,6 @@ Para colocar as estrelas de avaliação do produto, basta colocar o código abai
 
 ```php
 <?php
-// $product_id deve ser o id do produto.
-echo Mage::helper('hibridotrustvox')->mostrarEstrelas($product_id);
+echo Mage::helper('hibridotrustvox')->mostrarEstrelas($_product->getId());
 ?>
 ```
