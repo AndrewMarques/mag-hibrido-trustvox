@@ -30,7 +30,11 @@ class Hibrido_Trustvox_OrdersController extends Mage_Core_Controller_Front_Actio
             $i = -1;
             foreach ($orders as $order) {
                 ++$i;
-                $clientArray = $this->helper()->mountClientInfoToSend($order->getCustomerFirstname(), $order->getCustomerLastname(), $order->getCustomerEmail());
+                $clientArray = array(
+                    'first_name' => $order->getCustomerFirstname(),
+                    'last_name' => $order->getCustomerLastname(),
+                    'email' => $order->getCustomerEmail()
+                );
 
                 $enabled = $this->helper()->checkStoreIdEnabled();
                 $productArray = array();
@@ -50,7 +54,7 @@ class Hibrido_Trustvox_OrdersController extends Mage_Core_Controller_Front_Actio
                     }
 
                     $_item = $_product->load($productId);
-                    $product_url = $_item->getProductUrl();
+                    $product_url = $item->getProductUrl();
 
                     $images = array();
 
@@ -58,10 +62,10 @@ class Hibrido_Trustvox_OrdersController extends Mage_Core_Controller_Front_Actio
                         array_push($images, $image->getUrl());
                     }
 
-                    $productArray[$_item->getId()] = array(
-                        'name' => $_item->getName(),
-                        'id' => $_item->getId(),
-                        'price' => $_item->getPrice(),
+                    $productArray[$productId] = array(
+                        'name' => $item->getProductName(),
+                        'id' => $productId,
+                        'price' => $item->getProductPrice(),
                         'url' => $product_url,
                         'photos_urls' => is_null($images[0]) ? '' : array($images[0]),
                     );
@@ -72,12 +76,18 @@ class Hibrido_Trustvox_OrdersController extends Mage_Core_Controller_Front_Actio
                 $shippingDate = $shipment->getCreatedAt();
             }
 
-            if(!$shippingDate && $shippingDate != ''){
+            if(!$shippingDate || $shippingDate == ''){
                 $shippingDate = $order->getCreatedAt();
             }
 
-            array_push($json, $this->helper()->forJSON($order->getId(), $shippingDate, $clientArray, $productArray));
-            }
+            $data = array(
+                'order_id' => $order->getId(),
+                'delivery_date' => $shippingDate,
+                'client' => $clientArray,
+                'items' => $productArray
+            );
+
+            array_push($json, $data);
 
             return $this->getResponse()->setBody(json_encode($json));
         } else {
