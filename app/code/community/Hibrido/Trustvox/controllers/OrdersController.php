@@ -30,19 +30,16 @@ class Hibrido_Trustvox_OrdersController extends Mage_Core_Controller_Front_Actio
             $i = -1;
             foreach ($orders as $order) {
                 ++$i;
-                $clientArray = array(
-                    'first_name' => $order->getCustomerFirstname(),
-                    'last_name' => $order->getCustomerLastname(),
-                    'email' => $order->getCustomerEmail()
-                );
+                $clientArray = $this->helper()->mountClientInfoToSend($order->getCustomerFirstname(), $order->getCustomerLastname(), $order->getCustomerEmail());
 
                 $enabled = $this->helper()->checkStoreIdEnabled();
                 $productArray = array();
 
+
                 foreach ($order->getAllItems() as $item) {
                     $_product = Mage::getModel('catalog/product');
 
-                    if ($item->getProductType() == 'simple') {
+                    if ($item->getProductType() == 'simple' || $item->getProductType() == 'grouped') {
                         $parents = Mage::getResourceSingleton('catalog/product_type_configurable')->getParentIdsByChild($item->getProductId());
                         if(count($parents) >= 1){
                             $productId = $parents[0];
@@ -53,8 +50,15 @@ class Hibrido_Trustvox_OrdersController extends Mage_Core_Controller_Front_Actio
                         $productId = $item->getProductId();
                     }
 
+                    if ($item->getParentItemId()) {
+                        $parent_product_type = Mage::getModel('sales/order_item')->load($item->getParentItemId())->getProductType();
+                        if ($parent_product_type == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+                            $productId = $item->getParentItemId();
+                        }
+                    }
+
                     $_item = $_product->load($productId);
-                    $product_url = $item->getProductUrl();
+                    $product_url = $_item->getProductUrl();
 
                     $images = array();
 
@@ -62,13 +66,16 @@ class Hibrido_Trustvox_OrdersController extends Mage_Core_Controller_Front_Actio
                         array_push($images, $image->getUrl());
                     }
 
-                    $productArray[$productId] = array(
-                        'name' => $item->getProductName(),
-                        'id' => $productId,
-                        'price' => $item->getProductPrice(),
-                        'url' => $product_url,
-                        'photos_urls' => is_null($images[0]) ? '' : array($images[0]),
-                    );
+                    if($_item->getId()){
+                        $productArray[$_item->getId()] = array(
+                            'name' => $_item->getName(),
+                            'id' => $_item->getId(),
+                            'price' => $_item->getPrice(),
+                            'url' => $product_url,
+                            'type' => $item->getProductType(),
+                            'photos_urls' => is_null($images[0]) ? '' : array($images[0]),
+                        );
+                    }
                 }
 
             $shippingDate = '';
@@ -80,21 +87,16 @@ class Hibrido_Trustvox_OrdersController extends Mage_Core_Controller_Front_Actio
                 $shippingDate = $order->getCreatedAt();
             }
 
-            $data = array(
-                'order_id' => $order->getId(),
-                'delivery_date' => $shippingDate,
-                'client' => $clientArray,
-                'items' => $productArray
-            );
-
-            array_push($json, $data);
+            array_push($json, $this->helper()->forJSON($order->getId(), $shippingDate, $clientArray, $productArray));
+            }
 
             return $this->getResponse()->setBody(json_encode($json));
         } else {
-            $this->getResponse()->setBody(json_encode([
+            $jsonArray = array(
                 'error' => true,
                 'message' => 'not authorized',
-            ]));
+            );
+            $this->getResponse()->setBody(json_encode($jsonArray));
         }
     }
 }
