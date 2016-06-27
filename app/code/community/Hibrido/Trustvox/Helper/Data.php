@@ -227,7 +227,10 @@ class Hibrido_Trustvox_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function forJSON($orderId, $orderCreatedAt, $client, $product)
     {
+        $moduleVersion = Mage::getConfig()->getModuleConfig('Hibrido_Trustvox')->version;
+
         $data = array(
+            'moduleVersion' => $moduleVersion,
             'order_id' => $orderId,
             'delivery_date' => $orderCreatedAt,
             'client' => $client,
