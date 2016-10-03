@@ -103,20 +103,25 @@ class Hibrido_Trustvox_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function getOrdersByLastDays($days)
     {
-        $statuses = Mage::getResourceModel('sales/order_status_collection')
-          ->addStateFilter(array('complete'))
-          ->toOptionHash();
+        $customStatus = Mage::getResourceModel('sales/order_status_collection')
+            ->addStateFilter(array('complete'))
+            ->toOptionHash();
 
+        $statusCompleted = array('complete', 'completo', 'despachado', 'enviado', 'sent');
+
+        foreach ($customStatus as $statusKey => $status) {
+            if(!in_array($statusKey, $statusCompleted)){
+                $statusCompleted[] = $statusKey;
+            }
+        }
 
         $orders = Mage::getModel('sales/order')->getCollection()
-            ->addFieldToFilter('status', array('in' => array('complete', 'completo', 'despachado', 'enviado', 'sent')))
-            ->addFieldToFilter('created_at', array(
+            ->addFieldToFilter('status', array('in' => $statusCompleted) )
+            ->addFieldToFilter('updated_at', array(
                 'from' => date('m/d/Y', strtotime("-$days days")),
                 'to ' => date('m/d/Y', time()),
                 'date' => true,
             ));
-
-        // die(var_dump($orders->toArray()));
 
         return $orders;
     }

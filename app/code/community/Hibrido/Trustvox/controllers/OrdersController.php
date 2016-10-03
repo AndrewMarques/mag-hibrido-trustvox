@@ -23,6 +23,12 @@ class Hibrido_Trustvox_OrdersController extends Mage_Core_Controller_Front_Actio
                 $period = 15;
             }
 
+            $lastSync = $this->getRequest()->getHeader('last-sync');
+            if($lastSync != '' && $lastSync >= 1){
+                $period = strtotime(date('Y-m-d H:i:s')) - strtotime($lastSync);
+                $period = floor($period / (60 * 60 * 24));
+            }
+
             $orders = $this->helper()->getOrdersByLastDays($period);
 
             $json = array();
@@ -39,8 +45,15 @@ class Hibrido_Trustvox_OrdersController extends Mage_Core_Controller_Front_Actio
                 foreach ($order->getAllItems() as $item) {
                     $_product = Mage::getModel('catalog/product');
 
-                    if ($item->getProductType() == 'simple' || $item->getProductType() == 'grouped') {
+                    if ($item->getProductType() == 'simple') {
                         $parents = Mage::getResourceSingleton('catalog/product_type_configurable')->getParentIdsByChild($item->getProductId());
+                        if(count($parents) >= 1){
+                            $productId = $parents[0];
+                        }else{
+                            $productId = $item->getProductId();
+                        }
+                    }else if($item->getProductType() == 'grouped'){
+                        $parents = Mage::getModel('catalog/product_type_grouped')->getParentIdsByChild($item->getProductId());
                         if(count($parents) >= 1){
                             $productId = $parents[0];
                         }else{
