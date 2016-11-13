@@ -101,7 +101,7 @@ class Hibrido_Trustvox_Helper_Data extends Mage_Core_Helper_Abstract
         return $product->getProductUrl();
     }
 
-    public function getOrdersByLastDays($days)
+    public function getOrdersByLastDays($days, $store_id)
     {
         $customStatus = Mage::getResourceModel('sales/order_status_collection')
             ->addStateFilter(array('complete'))
@@ -116,6 +116,7 @@ class Hibrido_Trustvox_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         $orders = Mage::getModel('sales/order')->getCollection()
+            ->addFieldToFilter('store_id', $store_id)
             ->addFieldToFilter('status', array('in' => $statusCompleted) )
             ->addFieldToFilter('updated_at', array(
                 'from' => date('m/d/Y', strtotime("-$days days")),
@@ -278,19 +279,19 @@ class Hibrido_Trustvox_Helper_Data extends Mage_Core_Helper_Abstract
         return 'https://trustvox.com.br/api/';
     }
 
-    public function getToken()
+    public function getToken($store_id)
     {
-        return Mage::getStoreConfig('hibridotrustvox/configuracoes/token');
+        return Mage::getStoreConfig('hibridotrustvox/configuracoes/token', $store_id);
     }
 
-    public function getTrustvoxId()
+    public function getTrustvoxId($store_id)
     {
-        return Mage::getStoreConfig('hibridotrustvox/configuracoes/numero_da_loja');
+        return Mage::getStoreConfig('hibridotrustvox/configuracoes/numero_da_loja', $store_id);
     }
 
-    public function getPeriod()
+    public function getPeriod($store_id)
     {
-        return Mage::getStoreConfig('hibridotrustvox/configuracoes/periodo');
+        return Mage::getStoreConfig('hibridotrustvox/configuracoes/periodo', $store_id);
     }
 
     public function log($message)

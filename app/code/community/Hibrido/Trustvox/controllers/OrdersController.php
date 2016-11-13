@@ -11,7 +11,12 @@ class Hibrido_Trustvox_OrdersController extends Mage_Core_Controller_Front_Actio
     {
         $this->getResponse()->clearHeaders()->setHeader('Content-type', 'application/json', true);
 
-        if ($this->getRequest()->getHeader('trustvox-token') == $this->helper()->getToken()) {
+        $store_id = Mage::app()->getStore()->getId();
+        if($this->getRequest()->getHeader('store_id') && $this->getRequest()->getHeader('store_id') != ''){
+            $store_id = $this->getRequest()->getHeader('store_id');
+        }
+
+        if ($this->getRequest()->getHeader('trustvox-token') == $this->helper()->getToken($store_id)) {
             $counter = 0;
             $sent = 0;
             $clientArray = array();
@@ -29,7 +34,7 @@ class Hibrido_Trustvox_OrdersController extends Mage_Core_Controller_Front_Actio
                 $period = floor($period / (60 * 60 * 24));
             }
 
-            $orders = $this->helper()->getOrdersByLastDays($period);
+            $orders = $this->helper()->getOrdersByLastDays($period, $store_id);
 
             $json = array();
 
