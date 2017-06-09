@@ -15,7 +15,7 @@ var _trustvox = _trustvox || [];
 _trustvox.push(['_storeId', "<?php echo $numero_loja;?>"]);
 
 _trustvox.push(['_productId',  "<?php echo $_product->getId();?>"]);
-_trustvox.push(['_productName',"<?php echo $_product->getName();?>"]);
+_trustvox.push(['_productName','<?php echo addslashes($_product->getName());?>']);
 _trustvox.push(['_productPhotos', ["<?php echo $_product->getImageUrl();?>"]]);
 
 (function() {
